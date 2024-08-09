@@ -1,0 +1,51 @@
+#Level1Task3 "Email validation"
+
+import re
+
+def is_valid_email(email):
+
+    pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    
+
+    if not re.match(pattern, email):
+        return False
+    
+ 
+    local_part, domain_part = email.split('@')
+    
+
+    if not local_part or local_part[0] in '._+-' or local_part[-1] in '._+-':
+        return False
+    
+
+    if '.' not in domain_part or domain_part[0] == '-' or domain_part[-1] == '-':
+        return
+    domain_name, domain_extension = domain_part.rsplit('.', 1)
+    if not domain_name or not domain_extension:
+        return False
+    
+
+    if len(domain_extension) < 2:
+        return False
+    
+    return True
+
+# Testing the function
+emails = [
+    "example@test.com",
+    "user.name@domain.co.in",
+    "user@domaincom",
+    "user@domain.",
+    "user@.com",
+    "@domain.com",
+    "user@domaincom",
+    "user@domain-.com",
+    "user@-domain.com",
+    "user@domain.com-",
+    "user@domain.c",
+    ".user@domain.com",
+    "user@domain..com"
+]
+
+for email in emails:
+    print(f"{email}: {'Valid' if is_valid_email(email) else 'Invalid'}")
